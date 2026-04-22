@@ -1,4 +1,4 @@
-package com.example.restservice.controller.chat;
+package com.example.restservice.model.chat;
 
 public class ChatMessage {
     private String sender;
