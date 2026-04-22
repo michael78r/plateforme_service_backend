@@ -1,19 +1,17 @@
-package com.example.restservice.service;
+package com.example.restservice.service.user;
 
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.example.restservice.auth.JwtUtil;
 import com.example.restservice.auth.RefreshToken;
-import com.example.restservice.model.RoleType;
-import com.example.restservice.model.Utilisateur;
-import com.example.restservice.repository.RefreshTokenRepository;
-import com.example.restservice.repository.UtilisateurRepository;
-
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import org.springframework.stereotype.Service;
+import com.example.restservice.model.user.RoleType;
+import com.example.restservice.model.user.Utilisateur;
+import com.example.restservice.repository.user.RefreshTokenRepository;
+import com.example.restservice.repository.user.UtilisateurRepository;
 
 @Service
 public class AuthService {

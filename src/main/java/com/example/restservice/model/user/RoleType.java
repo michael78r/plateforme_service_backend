@@ -1,4 +1,4 @@
-package com.example.restservice.model;
+package com.example.restservice.model.user;
 
 public enum RoleType {
     client,

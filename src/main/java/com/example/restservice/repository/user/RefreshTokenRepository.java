@@ -1,13 +1,13 @@
-package com.example.restservice.repository;
+package com.example.restservice.repository.user;
 
-import com.example.restservice.auth.RefreshToken;
-import com.example.restservice.model.Specialite;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.restservice.model.Utilisateur;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.example.restservice.auth.RefreshToken;
+import com.example.restservice.model.user.Utilisateur;
 
 
 @Repository

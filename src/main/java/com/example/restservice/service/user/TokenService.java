@@ -1,21 +1,18 @@
-package com.example.restservice.service;
-
-import java.security.SecureRandom;
-
-import com.example.restservice.auth.AppJwtProperties;
-import com.example.restservice.auth.RefreshToken;
-import com.example.restservice.model.Utilisateur;
-import com.example.restservice.repository.RefreshTokenRepository;
-
-import java.security.SecureRandom;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.Base64;
-import java.util.Optional;
+package com.example.restservice.service.user;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
+
+import com.example.restservice.auth.AppJwtProperties;
+import com.example.restservice.auth.RefreshToken;
+import com.example.restservice.model.user.Utilisateur;
+import com.example.restservice.repository.user.RefreshTokenRepository;
 
 
 @Service

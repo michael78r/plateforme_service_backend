@@ -1,14 +1,18 @@
 package com.example.restservice.auth;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.time.Instant;
 
-import org.springframework.security.crypto.codec.Hex;
+import com.example.restservice.model.user.Utilisateur;
 
-import com.example.restservice.model.Utilisateur;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 
 @Entity
