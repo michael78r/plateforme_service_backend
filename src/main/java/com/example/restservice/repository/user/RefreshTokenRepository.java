@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import com.example.restservice.auth.RefreshToken;
 import com.example.restservice.model.user.Utilisateur;
 
-
 @Repository
 public interface RefreshTokenRepository extends JpaRepository<RefreshToken, Long> {
     Optional<RefreshToken> findByTokenHash(String tokenHash);

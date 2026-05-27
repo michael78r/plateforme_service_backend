@@ -31,6 +31,16 @@ CREATE TABLE Utilisateur (
     verification BOOLEAN DEFAULT FALSE
 );
 
+CREATE TABLE ChatMessage (
+    id SERIAL PRIMARY KEY,
+    sender INT,
+    content TEXT,
+    type VARCHAR(5),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (sender) REFERENCES Utilisateur(id)
+);
+
 CREATE TABLE specialites (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(100) UNIQUE NOT NULL
