@@ -17,4 +17,10 @@ public class PaymentRepository extends JpaRepository<Payment, Long> {
         // Simulate saving a payment
         System.out.println("Payment with ID " + payment.getId() + " saved successfully.");
     }
+
+    public void deleteById(String paymentId) {
+        // Simulate deleting a payment by ID
+        System.out.println("Payment with ID " + paymentId + " deleted successfully.");
+    }
+    
 }
