@@ -22,5 +22,17 @@ public class Client {
         // Logic to delete a client from the database
     }
 
+    public void searchClients(String query) {
+        // Logic to search for clients based on a query
+    }
+
+    public void filterClients(String filter) {
+        // Logic to filter clients based on specific criteria
+    }
+
+    public void sortClients(String sortBy) {
+        // Logic to sort clients based on a specific attribute
+    }
+
 
 }
