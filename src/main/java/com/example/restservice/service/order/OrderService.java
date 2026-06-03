@@ -1,9 +1,27 @@
 package com.example.restservice.service.order;
 
-public class Order {
+import com.example.restservice.model.client.Client;
+import com.example.restservice.model.order.Order;
+
+public class OrderService {
+
+    public String generateOrderId() {
+        // Logic to generate a unique order ID
+        return "ORD" + System.currentTimeMillis();
+    }
     // create order service
-    public void createOrder(Order order) {
+    public void createOrder(Order order, Client client) {
         // Logic to create a new order in the database
+        Client save = new Client();
+        save.setId(generateOrderId());
+        save.setName(client.getName());
+        save.setEmail(client.getEmail());
+
+        Order saveOrder = new Order();
+        saveOrder.setId(order.getId());
+        saveOrder.setAmount(order.getAmount());
+
+        // Save the order to the database
     }
 
     public void getAllOrders() {
