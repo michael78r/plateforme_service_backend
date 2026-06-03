@@ -1,5 +1,7 @@
 package com.example.restservice.service.order;
 
+import java.util.List;
+
 import com.example.restservice.model.client.Client;
 import com.example.restservice.model.order.Order;
 
@@ -24,8 +26,13 @@ public class OrderService {
         // Save the order to the database
     }
 
-    public void getAllOrders() {
+    public List<Order> getAllOrders() {
+        List<Order> orders = new ArrayList<>();
+        orders.add(new Order("ORD123", 100.0));
+        orders.add(new Order("ORD124", 150.0));
+        orders.add(new Order("ORD125", 200.0));
         // Logic to retrieve all orders from the database
+        return new ArrayList<>();
     }
 
     public void getOrderById(String id) {
