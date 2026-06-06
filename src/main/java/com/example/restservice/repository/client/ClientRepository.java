@@ -1,11 +1,11 @@
 package com.example.restservice.repository.client;
 
-public class Client extends com.example.restservice.model.client.Client {
-    public Client() {
+public class ClientRepository extends com.example.restservice.model.client.Client {
+    public ClientRepository() {
         super();
     }
 
-    public Client(String name, String email) {
+    public ClientRepository(String name, String email) {
         super(name, email);
     }
     
