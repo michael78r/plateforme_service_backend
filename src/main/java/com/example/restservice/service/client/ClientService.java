@@ -1,10 +1,11 @@
 package com.example.restservice.service.client;
 
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+import com.example.restservice.model.client.Client;
 import com.example.restservice.repository.client.ClientRepository;
 
 @Service
@@ -17,23 +18,23 @@ public class ClientService {
     }
 
     // Récupérer tous les clients
-    public List<ClientRepository> getAllClients() {
+    public List<Client> getAllClients() {
         return clientRepository.findAll();
     }
 
     // Récupérer un client par ID
-    public Optional<ClientRepository> getClientById(Long id) {
+    public Optional<Client> getClientById(Long id) {
         return clientRepository.findById(id);
     }
 
     // Créer un client
-    public ClientRepository createClient(ClientRepository client) {
+    public Client createClient(Client client) {
         return clientRepository.save(client);
     }
 
     // Mettre à jour un client
-    public ClientRepository updateClient(Long id, ClientRepository clientDetails) {
-        ClientRepository client = clientRepository.findById(id)
+    public Client updateClient(Long id, Client clientDetails) {
+        Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Client non trouvé"));
 
         client.setName(clientDetails.getName());

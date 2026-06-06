@@ -1,12 +1,8 @@
 package com.example.restservice.repository.client;
 
-public class ClientRepository extends com.example.restservice.model.client.Client {
-    public ClientRepository() {
-        super();
-    }
+import org.springframework.data.jpa.repository.JpaRepository;
 
-    public ClientRepository(String name, String email) {
-        super(name, email);
-    }
-    
+import com.example.restservice.model.client.Client;
+
+public interface ClientRepository extends JpaRepository<Client, Long> {
 }
