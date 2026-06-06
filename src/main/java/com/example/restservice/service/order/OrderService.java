@@ -35,7 +35,8 @@ public class OrderService {
         return new ArrayList<>();
     }
 
-    public void getOrderById(String id) {
+    public Order getOrderById(String id) {
+
         // Logic to retrieve a specific order by ID from the database
     }
 
