@@ -1,9 +1,14 @@
 package com.example.restservice.model.order;
 
+import java.math.BigDecimal;
+
 public class Order {
     public Long id;
     public String description;
     public Double amount;
+    public Integer status;
+    public BigDecimal total;
+
     public Order() {
     }
 
@@ -29,6 +34,22 @@ public class Order {
 
     public void setAmount(Double amount) {
         this.amount = amount;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
     
 }

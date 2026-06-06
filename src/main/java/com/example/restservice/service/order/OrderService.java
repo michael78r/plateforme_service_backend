@@ -1,10 +1,11 @@
 package com.example.restservice.service.order;
 
-import com.example.demo.model.Order;
-import com.example.demo.repository.OrderRepository;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.restservice.model.order.Order;
+import com.example.restservice.repository.order.OrderRepository;
 
 @Service
 public class OrderService {
