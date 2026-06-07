@@ -1,0 +1,85 @@
+package com.example.restservice.catalog;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.restservice.shared.exception.BusinessException;
+import com.example.restservice.shared.exception.ResourceNotFoundException;
+
+@Service
+public class ProductService {
+
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+
+    public ProductService(ProductRepository productRepository, CategoryRepository categoryRepository) {
+        this.productRepository = productRepository;
+        this.categoryRepository = categoryRepository;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Product> findActive() {
+        return productRepository.findByActiveTrue();
+    }
+
+    @Transactional(readOnly = true)
+    public Product getById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Produit introuvable : " + id));
+    }
+
+    @Transactional
+    public Product create(Product product, Long categoryId) {
+        if (categoryId != null) {
+            product.setCategory(loadCategory(categoryId));
+        }
+        return productRepository.save(product);
+    }
+
+    @Transactional
+    public Product update(Long id, Product details, Long categoryId) {
+        Product product = getById(id);
+        product.setName(details.getName());
+        product.setDescription(details.getDescription());
+        product.setPrice(details.getPrice());
+        product.setStockQuantity(details.getStockQuantity());
+        product.setSku(details.getSku());
+        product.setImageUrl(details.getImageUrl());
+        product.setActive(details.isActive());
+        product.setCategory(categoryId != null ? loadCategory(categoryId) : null);
+        return productRepository.save(product);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Produit introuvable : " + id);
+        }
+        productRepository.deleteById(id);
+    }
+
+    /** Décrémente le stock après vérification de disponibilité. */
+    @Transactional
+    public void decreaseStock(Product product, int quantity) {
+        if (quantity <= 0) {
+            throw new BusinessException("La quantité doit être positive");
+        }
+        if (product.getStockQuantity() < quantity) {
+            throw new BusinessException("Stock insuffisant pour le produit : " + product.getName());
+        }
+        product.setStockQuantity(product.getStockQuantity() - quantity);
+        productRepository.save(product);
+    }
+
+    private Category loadCategory(Long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Catégorie introuvable : " + categoryId));
+    }
+}
