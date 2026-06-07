@@ -2,6 +2,8 @@ package com.example.restservice.user;
 
 // import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,6 +20,7 @@ public class Utilisateur {
     private Long id;
     @Column(nullable = false, unique = true)
     private String email;
+    @JsonIgnore
     @Column(name = "mot_de_passe", nullable = false)
     private String motDePasse;
     private String prenom;
