@@ -1,38 +1,48 @@
 package com.example.restservice.invoice;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.restservice.order.Order;
+import com.example.restservice.shared.exception.ResourceNotFoundException;
+
+@Service
 public class InvoiceService {
-    // create invoice service
-    public void createInvoice(Invoice invoice) {
-        // Logic to create a new invoice in the database
+
+    private final InvoiceRepository invoiceRepository;
+
+    public InvoiceService(InvoiceRepository invoiceRepository) {
+        this.invoiceRepository = invoiceRepository;
     }
 
-    public void getAllInvoices() {
-        // Logic to retrieve all invoices from the database
+    /** Génère (ou retourne) la facture associée à une commande payée. Idempotent. */
+    @Transactional
+    public Invoice generateForOrder(Order order) {
+        return invoiceRepository.findByOrderId(order.getId())
+                .orElseGet(() -> {
+                    String number = "INV-" + order.getId();
+                    Invoice invoice = new Invoice(order, number, order.getTotal());
+                    invoice.setStatus(InvoiceStatus.PAID);
+                    return invoiceRepository.save(invoice);
+                });
     }
 
-    public void getInvoiceById(String id) {
-        // Logic to retrieve a specific invoice by ID from the database
+    @Transactional(readOnly = true)
+    public List<Invoice> findAll() {
+        return invoiceRepository.findAll();
     }
 
-    public void updateInvoice(String id, Invoice invoice) {
-        // Logic to update an existing invoice in the database
+    @Transactional(readOnly = true)
+    public Invoice getById(Long id) {
+        return invoiceRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Facture introuvable : " + id));
     }
 
-    public void deleteInvoice(String id) {
-        // Logic to delete an invoice from the database
+    @Transactional(readOnly = true)
+    public Invoice getByOrder(Long orderId) {
+        return invoiceRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new ResourceNotFoundException("Aucune facture pour la commande : " + orderId));
     }
-
-    public void searchInvoices(String query) {
-        // Logic to search for invoices based on a query
-    }
-
-    public void filterInvoices(String filter) {
-        // Logic to filter invoices based on specific criteria
-    }
-
-    public void sortInvoices(String sortBy) {
-        // Logic to sort invoices based on a specific attribute
-    }
-
-
 }
