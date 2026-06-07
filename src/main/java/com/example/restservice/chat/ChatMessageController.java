@@ -1,13 +1,13 @@
 package com.example.restservice.chat;
 
-import java.util.Optional;
+import java.util.List;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api")
 public class ChatMessageController {
 
@@ -18,8 +18,8 @@ public class ChatMessageController {
     }
 
     @GetMapping("chat/history")
-    public Optional<ChatMessage> getChatHistory(@RequestParam Long senderId) {
-        return chatMessageRepository.findAllByOrderByTimestampDesc();
+    public List<ChatMessage> getChatHistory(@RequestParam Long senderId) {
+        return chatMessageRepository.findBySenderIdOrderByTimestampDesc(senderId);
     }
 
 }

@@ -33,12 +33,30 @@ public class AuthService {
         u.setMotDePasse(passwordEncoder.encode(plainPassword));
         u.setPrenom(prenom);
         u.setNom(nom);
-        u.setRole(RoleType.admin);
+        u.setRole(resolveRole(role));
         u.setTelephone(telephone);
         u.setAdresse(adresse);
         u.setIdSpecialite(id_specialite);
         u.setExperience(experience);
         return utilisateurRepository.save(u);
+    }
+
+    /**
+     * Résout le rôle demandé à l'inscription. Par défaut {@code client}.
+     * Le rôle {@code admin} ne peut PAS être obtenu via l'inscription publique
+     * (il est rétrogradé en {@code client}) pour éviter toute élévation de privilège.
+     */
+    private RoleType resolveRole(String role) {
+        if (role == null || role.isBlank()) {
+            return RoleType.client;
+        }
+        RoleType requested;
+        try {
+            requested = RoleType.valueOf(role.trim().toLowerCase());
+        } catch (IllegalArgumentException e) {
+            return RoleType.client;
+        }
+        return requested == RoleType.admin ? RoleType.client : requested;
     }
 
     public Map<String, String> login(String email, String plainPassword) {

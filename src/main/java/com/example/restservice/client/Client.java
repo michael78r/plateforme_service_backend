@@ -1,9 +1,19 @@
 package com.example.restservice.client;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "clients")
 public class Client {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String name;
     private String email;
-    private String id;
     private String phoneNumber;
     private String address;
     private String company;
@@ -27,6 +37,14 @@ public class Client {
         this.email = email;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -41,14 +59,6 @@ public class Client {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getPhoneNumber() {

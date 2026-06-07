@@ -1,29 +1,48 @@
 package com.example.restservice.payment;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "payments")
 public class Payment {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String orderId;
     private double amount;
-    public Payment(String id, String orderId, double amount) {
-        this.id = id;
+
+    public Payment() {
+    }
+
+    public Payment(String orderId, double amount) {
         this.orderId = orderId;
         this.amount = amount;
     }
-    public String getId() {
+
+    public Long getId() {
         return id;
     }
-    public void setId(String id) {
+
+    public void setId(Long id) {
         this.id = id;
     }
+
     public String getOrderId() {
         return orderId;
     }
+
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
+
     public double getAmount() {
         return amount;
     }
+
     public void setAmount(double amount) {
         this.amount = amount;
     }
