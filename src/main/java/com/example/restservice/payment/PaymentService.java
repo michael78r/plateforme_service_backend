@@ -11,6 +11,7 @@ import com.example.restservice.invoice.InvoiceService;
 import com.example.restservice.order.Order;
 import com.example.restservice.order.OrderRepository;
 import com.example.restservice.order.OrderStatus;
+import com.example.restservice.shared.email.EmailService;
 import com.example.restservice.shared.exception.BusinessException;
 import com.example.restservice.shared.exception.ResourceNotFoundException;
 
@@ -20,12 +21,14 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final OrderRepository orderRepository;
     private final InvoiceService invoiceService;
+    private final EmailService emailService;
 
     public PaymentService(PaymentRepository paymentRepository, OrderRepository orderRepository,
-            InvoiceService invoiceService) {
+            InvoiceService invoiceService, EmailService emailService) {
         this.paymentRepository = paymentRepository;
         this.orderRepository = orderRepository;
         this.invoiceService = invoiceService;
+        this.emailService = emailService;
     }
 
     /**
@@ -55,6 +58,9 @@ public class PaymentService {
         orderRepository.save(order);
         invoiceService.generateForOrder(order);
 
+        // Reçu de paiement (asynchrone) : on extrait les données dans la transaction
+        emailService.sendPaymentReceipt(order.getClient().getEmail(), order.getId(),
+                saved.getAmount(), saved.getTransactionRef());
         return saved;
     }
 
