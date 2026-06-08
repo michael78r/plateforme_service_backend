@@ -87,7 +87,7 @@ public class AuthService {
         String newAccess = jwtutil.generateAccessToken(u.getId().toString(),
                 Map.of("role", u.getRole().name(), "email", u.getEmail()));
 
-        return Map.of("AccessToken", newAccess, "refreshToken", newRefreshPlain);
+        return Map.of("accessToken", newAccess, "refreshToken", newRefreshPlain);
     }
 
     public void logout(String incomingRefreshPlain) {
