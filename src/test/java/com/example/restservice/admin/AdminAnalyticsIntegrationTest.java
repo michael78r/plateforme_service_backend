@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.restservice.catalog.Product;
 import com.example.restservice.catalog.ProductRepository;
@@ -30,6 +31,7 @@ import com.example.restservice.user.UtilisateurRepository;
 /** Tests d'intégration du tableau de bord admin (Phase 2 — bloc 4). */
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class AdminAnalyticsIntegrationTest {
 
     @Autowired
@@ -50,11 +52,6 @@ class AdminAnalyticsIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        paymentRepository.deleteAll();
-        orderRepository.deleteAll();
-        productRepository.deleteAll();
-        utilisateurRepository.deleteAll();
-
         Utilisateur client = utilisateurRepository.save(user("client@demo.com", RoleType.client));
         tokenClient = token(client);
         tokenAdmin = token(utilisateurRepository.save(user("admin@demo.com", RoleType.admin)));

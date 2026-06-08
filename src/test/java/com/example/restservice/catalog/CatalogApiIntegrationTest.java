@@ -15,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.restservice.shared.security.JwtUtil;
 import com.example.restservice.user.RoleType;
@@ -24,6 +25,7 @@ import com.example.restservice.user.UtilisateurRepository;
 /** Tests d'intégration du catalogue : catégories (public/admin) et recherche paginée des produits (Phase 2). */
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class CatalogApiIntegrationTest {
 
     @Autowired
@@ -42,10 +44,6 @@ class CatalogApiIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        productRepository.deleteAll();
-        categoryRepository.deleteAll();
-        utilisateurRepository.deleteAll();
-
         tokenClient = token(utilisateurRepository.save(user("client@demo.com", RoleType.client)));
         tokenAdmin = token(utilisateurRepository.save(user("admin@demo.com", RoleType.admin)));
 

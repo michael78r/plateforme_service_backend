@@ -15,6 +15,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.restservice.shared.security.JwtUtil;
 import com.example.restservice.user.RoleType;
@@ -27,6 +28,7 @@ import com.example.restservice.user.UtilisateurRepository;
  */
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class OrderApiSecurityIntegrationTest {
 
     @Autowired
@@ -46,9 +48,6 @@ class OrderApiSecurityIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        orderRepository.deleteAll();
-        utilisateurRepository.deleteAll();
-
         Utilisateur owner = utilisateurRepository.save(user("owner@demo.com", RoleType.client));
         Utilisateur other = utilisateurRepository.save(user("other@demo.com", RoleType.client));
         Utilisateur admin = utilisateurRepository.save(user("admin@demo.com", RoleType.admin));
