@@ -9,6 +9,7 @@ import com.example.restservice.catalog.Product;
 import com.example.restservice.catalog.ProductRepository;
 import com.example.restservice.catalog.ProductService;
 import com.example.restservice.order.dto.OrderItemRequest;
+import com.example.restservice.shared.email.EmailService;
 import com.example.restservice.shared.exception.BusinessException;
 import com.example.restservice.shared.exception.ResourceNotFoundException;
 import com.example.restservice.user.Utilisateur;
@@ -21,13 +22,16 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final ProductService productService;
     private final UtilisateurRepository utilisateurRepository;
+    private final EmailService emailService;
 
     public OrderService(OrderRepository orderRepository, ProductRepository productRepository,
-            ProductService productService, UtilisateurRepository utilisateurRepository) {
+            ProductService productService, UtilisateurRepository utilisateurRepository,
+            EmailService emailService) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.productService = productService;
         this.utilisateurRepository = utilisateurRepository;
+        this.emailService = emailService;
     }
 
     /** Crée une commande pour un client : valide le stock, fige les prix et décrémente l'inventaire. */
@@ -54,7 +58,11 @@ public class OrderService {
         }
 
         order.recalculateTotal();
-        return orderRepository.save(order);
+        Order saved = orderRepository.save(order);
+
+        // Notification asynchrone (l'email extrait ici les données pour ne pas toucher d'entité lazy hors transaction)
+        emailService.sendOrderConfirmation(client.getEmail(), saved.getId(), saved.getTotal());
+        return saved;
     }
 
     @Transactional(readOnly = true)
