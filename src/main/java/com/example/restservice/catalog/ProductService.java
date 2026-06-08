@@ -65,17 +65,19 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    /** Décrémente le stock après vérification de disponibilité. */
+    /**
+     * Décrémente le stock de façon atomique (anti-survente sous concurrence).
+     * Le contrôle de disponibilité et la mise à jour sont faits en une seule requête SQL.
+     */
     @Transactional
     public void decreaseStock(Product product, int quantity) {
         if (quantity <= 0) {
             throw new BusinessException("La quantité doit être positive");
         }
-        if (product.getStockQuantity() < quantity) {
+        int updated = productRepository.decreaseStock(product.getId(), quantity);
+        if (updated == 0) {
             throw new BusinessException("Stock insuffisant pour le produit : " + product.getName());
         }
-        product.setStockQuantity(product.getStockQuantity() - quantity);
-        productRepository.save(product);
     }
 
     private Category loadCategory(Long categoryId) {
