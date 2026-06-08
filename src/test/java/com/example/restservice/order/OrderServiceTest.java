@@ -20,6 +20,7 @@ import com.example.restservice.catalog.Product;
 import com.example.restservice.catalog.ProductRepository;
 import com.example.restservice.catalog.ProductService;
 import com.example.restservice.order.dto.OrderItemRequest;
+import com.example.restservice.shared.email.EmailService;
 import com.example.restservice.shared.exception.BusinessException;
 import com.example.restservice.user.Utilisateur;
 import com.example.restservice.user.UtilisateurRepository;
@@ -36,6 +37,8 @@ class OrderServiceTest {
     ProductService productService;
     @Mock
     UtilisateurRepository utilisateurRepository;
+    @Mock
+    EmailService emailService;
     @InjectMocks
     OrderService orderService;
 
