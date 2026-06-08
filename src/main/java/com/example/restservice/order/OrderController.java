@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.restservice.order.dto.CreateOrderRequest;
 import com.example.restservice.order.dto.OrderResponse;
+import com.example.restservice.shared.security.AuthUtils;
 
 import jakarta.validation.Valid;
 
@@ -46,17 +48,23 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public OrderResponse get(@PathVariable Long id) {
-        return OrderResponse.from(orderService.getById(id));
+    public OrderResponse get(@PathVariable Long id, Authentication authentication) {
+        Order order = orderService.getById(id);
+        AuthUtils.ensureOwnerOrAdmin(order.getClient().getId(), authentication);
+        return OrderResponse.from(order);
     }
 
+    /** Changement de statut (ex. expédition, livraison) : réservé à l'admin. */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}/status")
     public OrderResponse updateStatus(@PathVariable Long id, @RequestParam OrderStatus status) {
         return OrderResponse.from(orderService.updateStatus(id, status));
     }
 
     @PostMapping("/{id}/cancel")
-    public OrderResponse cancel(@PathVariable Long id) {
+    public OrderResponse cancel(@PathVariable Long id, Authentication authentication) {
+        Order order = orderService.getById(id);
+        AuthUtils.ensureOwnerOrAdmin(order.getClient().getId(), authentication);
         return OrderResponse.from(orderService.cancel(id));
     }
 
