@@ -2,6 +2,8 @@ package com.example.restservice.catalog;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.restservice.catalog.dto.ProductRequest;
 import com.example.restservice.catalog.dto.ProductResponse;
+import com.example.restservice.shared.dto.PageResponse;
 
 import jakarta.validation.Valid;
 
@@ -32,6 +36,19 @@ public class ProductController {
     @GetMapping
     public List<ProductResponse> list() {
         return productService.findActive().stream().map(ProductResponse::from).toList();
+    }
+
+    /**
+     * Recherche paginée des produits actifs.
+     * Ex : {@code /api/products/search?q=clavier&categoryId=3&page=0&size=20&sort=price,asc}
+     */
+    @GetMapping("/search")
+    public PageResponse<ProductResponse> search(
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) Long categoryId,
+            @PageableDefault(size = 20) Pageable pageable) {
+        return PageResponse.from(
+                productService.search(q, categoryId, pageable).map(ProductResponse::from));
     }
 
     @GetMapping("/{id}")

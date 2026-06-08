@@ -2,6 +2,8 @@ package com.example.restservice.catalog;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +29,13 @@ public class ProductService {
     @Transactional(readOnly = true)
     public List<Product> findActive() {
         return productRepository.findByActiveTrue();
+    }
+
+    /** Recherche paginée des produits actifs (mot-clé et catégorie optionnels). */
+    @Transactional(readOnly = true)
+    public Page<Product> search(String q, Long categoryId, Pageable pageable) {
+        String keyword = (q == null || q.isBlank()) ? null : q.trim();
+        return productRepository.search(keyword, categoryId, pageable);
     }
 
     @Transactional(readOnly = true)

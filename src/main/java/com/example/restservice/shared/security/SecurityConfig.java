@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers("/ws/**").permitAll()
                         // Catalogue consultable sans authentification
                         .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                         .anyRequest().authenticated())
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .formLogin(form -> form.disable())
