@@ -34,7 +34,8 @@ public class ProductService {
     /** Recherche paginée des produits actifs (mot-clé et catégorie optionnels). */
     @Transactional(readOnly = true)
     public Page<Product> search(String q, Long categoryId, Pageable pageable) {
-        String keyword = (q == null || q.isBlank()) ? null : q.trim();
+        // Jamais null : "" => like '%%' => aucun filtre sur le nom (et évite lower(bytea) sur PostgreSQL).
+        String keyword = (q == null) ? "" : q.trim();
         return productRepository.search(keyword, categoryId, pageable);
     }
 

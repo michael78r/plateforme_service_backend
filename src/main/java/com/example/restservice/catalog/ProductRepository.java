@@ -22,11 +22,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     /**
      * Recherche paginée des produits actifs, avec filtres optionnels :
-     * un mot-clé sur le nom ({@code q}) et/ou une catégorie ({@code categoryId}).
-     * Un paramètre {@code null} est ignoré (pas de filtre sur ce critère).
+     * un mot-clé sur le nom ({@code q}, chaîne vide = pas de filtre) et/ou une catégorie ({@code categoryId}, {@code null} = pas de filtre).
+     *
+     * <p>{@code q} ne doit jamais être {@code null} : un bind {@code null} non typé est interprété
+     * comme {@code bytea} par PostgreSQL et fait échouer {@code lower(...)}. Le service passe "" par défaut,
+     * ce qui donne {@code like '%%'} (toutes les lignes).
      */
     @Query("select p from Product p where p.active = true "
-            + "and (:q is null or lower(p.name) like lower(concat('%', :q, '%'))) "
+            + "and lower(p.name) like lower(concat('%', :q, '%')) "
             + "and (:categoryId is null or p.category.id = :categoryId)")
     Page<Product> search(@Param("q") String q, @Param("categoryId") Long categoryId, Pageable pageable);
 
