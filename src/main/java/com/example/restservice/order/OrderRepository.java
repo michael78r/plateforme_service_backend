@@ -23,4 +23,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select o from Order o where o.id = :id")
     Optional<Order> findByIdForUpdate(@Param("id") Long id);
+
+    /** Nombre de commandes par statut, sous forme de lignes {@code [OrderStatus, Long]}. */
+    @Query("select o.status, count(o) from Order o group by o.status")
+    List<Object[]> countGroupedByStatus();
 }

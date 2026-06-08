@@ -17,6 +17,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByCategoryId(Long categoryId);
     Optional<Product> findBySku(String sku);
 
+    /** Nombre de produits dont le stock est strictement sous un seuil (alerte réapprovisionnement). */
+    long countByStockQuantityLessThan(int threshold);
+
     /**
      * Recherche paginée des produits actifs, avec filtres optionnels :
      * un mot-clé sur le nom ({@code q}) et/ou une catégorie ({@code categoryId}).
