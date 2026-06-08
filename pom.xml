@@ -77,6 +77,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Base in-memory pour les tests (aucune dépendance à un PostgreSQL local) -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
