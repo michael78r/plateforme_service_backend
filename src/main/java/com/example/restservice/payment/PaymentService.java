@@ -35,7 +35,8 @@ public class PaymentService {
      */
     @Transactional
     public Payment payOrder(Long orderId, PaymentMethod method) {
-        Order order = orderRepository.findById(orderId)
+        // Verrou exclusif : garantit l'idempotence face à des appels concurrents (anti double-paiement).
+        Order order = orderRepository.findByIdForUpdate(orderId)
                 .orElseThrow(() -> new ResourceNotFoundException("Commande introuvable : " + orderId));
 
         if (order.getStatus() != OrderStatus.PENDING) {
