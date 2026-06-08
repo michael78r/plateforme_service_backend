@@ -25,7 +25,7 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Utilisateur register(String email, String plainPassword, String prenom, String nom, String role, String telephone, String adresse, Integer id_specialite, String experience) {
+    public Utilisateur register(String email, String plainPassword, String prenom, String nom, String role, String telephone, String adresse, String experience) {
         if (utilisateurRepository.findByEmail(email).isPresent())
             throw new IllegalArgumentException("Email already in use");
         Utilisateur u = new Utilisateur();
@@ -36,7 +36,6 @@ public class AuthService {
         u.setRole(resolveRole(role));
         u.setTelephone(telephone);
         u.setAdresse(adresse);
-        u.setIdSpecialite(id_specialite);
         u.setExperience(experience);
         return utilisateurRepository.save(u);
     }

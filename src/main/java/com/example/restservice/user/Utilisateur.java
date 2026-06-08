@@ -29,7 +29,7 @@ public class Utilisateur {
     private RoleType role;
     private String telephone;
     private String adresse;
-    private Integer idSpecialite;
+    // private Integer idSpecialite;
     private String experience;
     private Float evaluation = 0f;
     private Boolean verification = false;
@@ -102,13 +102,13 @@ public class Utilisateur {
         this.adresse = adresse;
     }
 
-    public Integer getIdSpecialite() {
-        return idSpecialite;
-    }
+    // public Integer getIdSpecialite() {
+    //     return idSpecialite;
+    // }
 
-    public void setIdSpecialite(Integer idSpecialite) {
-        this.idSpecialite = idSpecialite;
-    }
+    // public void setIdSpecialite(Integer idSpecialite) {
+    //     this.idSpecialite = idSpecialite;
+    // }
 
     public String getExperience() {
         return experience;
