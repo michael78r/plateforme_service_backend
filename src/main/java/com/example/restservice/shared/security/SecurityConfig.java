@@ -25,7 +25,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     /** Origines autorisées pour CORS, séparées par des virgules (configurable par environnement). */
-    @Value("${app.cors.allowed-origins:https://plateforme-service-frontend.vercel.app/}")
+    @Value("${app.cors.allowed-origins:https://plateforme-service-frontend.vercel.app}")
     private List<String> allowedOrigins;
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
