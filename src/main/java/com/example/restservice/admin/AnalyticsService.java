@@ -22,9 +22,7 @@ import com.example.restservice.user.UtilisateurRepository;
 @Service
 public class AnalyticsService {
 
-    /** Seuil d'alerte de stock bas. */
     private static final int LOW_STOCK_THRESHOLD = 5;
-    /** Nombre de produits dans le classement des meilleures ventes. */
     private static final int TOP_PRODUCTS_LIMIT = 5;
 
     private final OrderRepository orderRepository;
@@ -58,7 +56,6 @@ public class AnalyticsService {
                 topProducts);
     }
 
-    /** Compte les commandes par statut, en garantissant une entrée (0 par défaut) pour chaque statut. */
     private Map<OrderStatus, Long> ordersByStatus() {
         Map<OrderStatus, Long> counts = new EnumMap<>(OrderStatus.class);
         for (OrderStatus status : OrderStatus.values()) {

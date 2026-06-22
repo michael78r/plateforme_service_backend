@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.restservice.admin.dto.DashboardStats;
 
-/** Indicateurs du tableau de bord administrateur. Réservé au rôle admin. */
 @RestController
 @RequestMapping("/api/admin")
 @PreAuthorize("hasRole('ADMIN')")
